@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Form from './components/Form';
+import List from './components/List';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const [todos, setTodos] = useState([
+      { id: 1, title: 'Завдання 1', comleted: true }
+   ]);
+
+   // useEffect(() => {
+   //    const row = localStorage.getItem('todos');
+   //    console.log(row);
+   //    setTodos(JSON.parse(row));
+   // }, []);
+
+   // useEffect(() => {
+
+   //    localStorage.setItem('todos', JSON.stringify(todos));
+   // }, [todos]);
+
+   return (
+      <div className='todo'>
+         <h2>Список завдань</h2>
+         <Form todos={todos} setTodos={setTodos} />
+         <List todos={todos} />
+      </div>
+   );
 }
 
 export default App;
