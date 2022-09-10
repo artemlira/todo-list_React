@@ -49,8 +49,14 @@ input:focus {
    padding: 15px 30px;
    border-radius: 5px;
    margin: 5px 0;
+   display: flex;
+   justify-content: space-between;
 }
 
 .todo__completed {
    background-color: #f47676;
+}
+
+.delete {
+   cursor: pointer;
 }
