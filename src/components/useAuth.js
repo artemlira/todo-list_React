@@ -1,34 +1,33 @@
 import { useEffect, useState } from "react";
 
 export function useAuth(authFirebase) {
-   const [authentification, setAuthentification] = useState(null);
+  const [authentification, setAuthentification] = useState(null);
 
-   const auth = authFirebase();
-   const provider = new authFirebase.GoogleAuthProvider();
+  const auth = authFirebase();
+  const provider = new authFirebase.GoogleAuthProvider();
 
-   const logIn = () => {
-      auth.signInWithPopup(provider);
-   };
+  const logIn = () => {
+    auth.signInWithPopup(provider);
+  };
 
-   const logOut = () => {
-      auth.signOut()
-         .cath(err => console.error());
-   };
+  const logOut = () => {
+    auth.signOut()
+      .cath(err => console.error());
+  };
 
-   useEffect(() => {
-      auth.onAuthStateChanged(user => {
-         console.log(user);
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
 
-         if (user) {
-            setAuthentification(user);
-         } else {
-            setAuthentification(null);
-         }
+      if (user) {
+        setAuthentification(user);
+      } else {
+        setAuthentification(null);
+      }
 
-      });
-   }, [authentification]);
-
+    });
+  }, [authentification]);
 
 
-   return { authentification, logIn, logOut }
+
+  return { authentification, logIn, logOut }
 }

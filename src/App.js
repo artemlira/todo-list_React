@@ -10,15 +10,16 @@ import { useAuth } from './components/useAuth';
 
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
+import 'firebase/compat/database';
 
 const firebaseConfig = {
-   apiKey: "AIzaSyBVH9RF-GNx9aOZr6bxDOoNUwDkiLCL_6M",
-   authDomain: "my-todo-a5bd2.firebaseapp.com",
-   databaseURL: "https://my-todo-a5bd2-default-rtdb.europe-west1.firebasedatabase.app",
-   projectId: "my-todo-a5bd2",
-   storageBucket: "my-todo-a5bd2.appspot.com",
-   messagingSenderId: "696975526836",
-   appId: "1:696975526836:web:bb2af56227809da96280e1"
+  apiKey: "AIzaSyBVH9RF-GNx9aOZr6bxDOoNUwDkiLCL_6M",
+  authDomain: "my-todo-a5bd2.firebaseapp.com",
+  databaseURL: "https://my-todo-a5bd2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "my-todo-a5bd2",
+  storageBucket: "my-todo-a5bd2.appspot.com",
+  messagingSenderId: "696975526836",
+  appId: "1:696975526836:web:bb2af56227809da96280e1"
 };
 
 // Initialize Firebase
@@ -28,58 +29,64 @@ firebase.initializeApp(firebaseConfig);
 
 
 function App() {
-   const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-   const auth = useAuth(firebase.auth);
-   console.dir(auth);
+  const auth = useAuth(firebase.auth);
+  // console.dir(firebase.database());
 
-   const handlerClick = () => console.log('click');
+  const handlerClick = () => console.log('click');
 
-   useEffect(() => {
-      const data = JSON.parse(localStorage.getItem('todos')) || [];
-      setTodos(data);
-   }, []);
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('todos')) || [];
+    setTodos(data);
+  }, []);
 
-   useEffect(() => {
-      document.addEventListener('click', handlerClick);
-      if (todos.length > 0) {
-         localStorage.setItem('todos', JSON.stringify(todos));
+  useEffect(() => {
+    document.addEventListener('click', handlerClick);
+    if (todos.length > 0) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    return () => {
+      document.removeEventListener('click', handlerClick);
+    }
+
+  }, [todos]);
+
+  const toggleTodo = id => {
+    setTodos(todos.map(todo => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed
       }
+      return todo;
+    }))
+  }
 
-      return () => {
-         document.removeEventListener('click', handlerClick);
-      }
-
-   }, [todos]);
-
-   const toggleTodo = id => {
-      setTodos(todos.map(todo => {
-         if (todo.id === id) {
-            todo.completed = !todo.completed
-         }
-         return todo;
-      }))
-   }
-
-   const removeTodo = id => {
-      setTodos(todos.filter(todo => {
-         return todo.id !== id;
-      }))
-   }
+  const removeTodo = id => {
+    setTodos(todos.filter(todo => {
+      return todo.id !== id;
+    }))
+  }
 
 
-   return (
-      <Context.Provider value={{ toggleTodo, removeTodo }}>
-         <div className='todo'>
+  return (
+    <Context.Provider value={{ toggleTodo, removeTodo }}>
+      <div className='todo'>
 
-            <Header {...auth} />
+        <Header {...auth} />
 
-            <Form todos={todos} setTodos={setTodos} />
+        <Form todos={todos}
+          setTodos={setTodos}
+          authentification={auth.authentification}
+          login={auth.logIn}
+          firebaseDatabase={firebase.database}
+        />
 
-            <List todos={todos} />
-         </div>
-      </Context.Provider>
-   );
+
+        <List todos={todos} />
+      </div>
+    </Context.Provider>
+  );
 }
 
 export default App;
