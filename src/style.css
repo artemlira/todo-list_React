@@ -60,3 +60,42 @@ input:focus {
 .delete {
    cursor: pointer;
 }
+
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   /* background-color: #c9c9c9; */
+}
+
+.login {
+   background-color: #c9c9c9;
+   padding: 5px 15px;
+   border-radius: 5px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+}
+
+.login:hover {
+   background-color: #828282;
+   color: #fff;
+}
+
+.avatar {
+   width: 50px;
+   overflow: hidden;
+   border-radius: 50%;
+   margin-right: 5px;
+}
+
+.avatar img {
+   width: 100%;
+   height: 100%;
+}
+
+.user__name {}
+
+.email {
+   font-size: 0.5em;
+}

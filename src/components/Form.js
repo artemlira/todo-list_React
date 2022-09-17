@@ -4,7 +4,7 @@ export default function Form({ todos, setTodos }) {
    const [todoTitle, setTodoTitle] = useState('');
 
    const addTodo = (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && todoTitle !== '' && todoTitle !== ' ') {
          setTodos([
             ...todos,
             {
